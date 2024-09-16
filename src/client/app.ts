@@ -1,14 +1,17 @@
 import { Socket } from "net";
-import { Request } from "@shared/Request";
+import { Request } from "@shared";
 
 const socket = new Socket();
 
 const connection = () => {
   const request: Request = {
-    url: "/auth",
+    url: "/auth/register",
     method: "POST",
     headers: {},
-    body: {},
+    body: {
+      password: "123",
+      login: "John",
+    },
   };
 
   const buffer = Buffer.from(JSON.stringify(request), "utf8");
