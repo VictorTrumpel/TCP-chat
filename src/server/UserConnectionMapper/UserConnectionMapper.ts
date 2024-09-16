@@ -17,6 +17,11 @@ export class UserConnectionMapper {
     return uuid;
   }
 
+  deleteUserConnectionByUuid(uuid: string) {
+    this.uuidUserMap.delete(uuid);
+    this.uuidConnectionMap.delete(uuid);
+  }
+
   getUserByUuid(userUuid: string) {
     const connectedUser = this.uuidUserMap.get(userUuid);
     return connectedUser || null;
@@ -25,6 +30,14 @@ export class UserConnectionMapper {
   getConnectionByUuid(connectionUuid: string) {
     const connection = this.uuidConnectionMap.get(connectionUuid);
     return connection || null;
+  }
+
+  getConnectionUuid(needToFindConnection: Connection) {
+    for (const [connectionUuid, connection] of this.uuidConnectionMap) {
+      if (needToFindConnection !== connection) continue;
+      return connectionUuid;
+    }
+    return null;
   }
 }
 

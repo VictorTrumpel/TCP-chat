@@ -5,7 +5,7 @@ const socket = new Socket();
 
 const connection = () => {
   const request: Request = {
-    url: "/auth/register",
+    url: "/auth",
     method: "POST",
     headers: {},
     body: {

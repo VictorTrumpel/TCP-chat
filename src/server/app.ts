@@ -1,7 +1,7 @@
 import { Socket, Server } from "net";
 import { Connection } from "./Connection";
 import { authRequest } from "./handlers/authRequest";
-import { registerRequest } from "./handlers/registerRequest";
+import { closeRequest } from "./handlers/closeRequest";
 
 const PORT = 8000;
 
@@ -11,7 +11,7 @@ const connection = (socket: Socket) => {
   const connection = new Connection(socket);
 
   connection.on("/auth", authRequest);
-  connection.on("/auth/register", registerRequest);
+  connection.onClose(closeRequest);
 };
 
 server.listen(8000);

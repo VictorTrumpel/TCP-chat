@@ -2,7 +2,7 @@ import { describe, it, vi, beforeEach, expect } from "vitest";
 import { userConnectionMapper } from "@server/UserConnectionMapper";
 import { Connection } from "@server/Connection";
 import { Request } from "@shared";
-import { registerRequest } from "./registerRequest";
+import { authRequest } from "./authRequest";
 
 vi.mock("@server/UserConnectionMapper", () => {
   return {
@@ -12,7 +12,7 @@ vi.mock("@server/UserConnectionMapper", () => {
   };
 });
 
-describe("Спецификация на функцию registerRequest", () => {
+describe("Спецификация на функцию authRequest", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -28,7 +28,7 @@ describe("Спецификация на функцию registerRequest", () => {
 
     const connection = { send: vi.fn() } as unknown as Connection;
 
-    registerRequest(request, connection);
+    authRequest(request, connection);
 
     expect(userConnectionMapper.addUserConnection).toBeCalledTimes(1);
     expect(userConnectionMapper.addUserConnection).toBeCalledWith(
@@ -49,7 +49,7 @@ describe("Спецификация на функцию registerRequest", () => {
 
     const connection = { send: vi.fn() } as unknown as Connection;
 
-    registerRequest(request, connection);
+    authRequest(request, connection);
 
     expect(connection.send).toBeCalledTimes(1);
 
@@ -57,6 +57,7 @@ describe("Спецификация на функцию registerRequest", () => {
 
     const responseJson = JSON.parse((arg as Buffer).toString());
 
-    expect(responseJson.uuid).toBe("some-uuid");
+    expect(responseJson.body.uuid).toBe("some-uuid");
+    expect(responseJson.code).toBe(200);
   });
 });

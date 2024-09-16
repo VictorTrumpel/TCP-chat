@@ -78,4 +78,49 @@ describe("Спецификация класса UserConnectionMapper", () => {
 
     expect(connectedConnection).toBe(null);
   });
+
+  it("Метод getConnectionUuid возвращает uuid соединения в системе", () => {
+    const user: User = { login: "John", password: "123" };
+    const connection = new Connection(new Socket());
+    const userConnectionMapper = new UserConnectionMapper();
+
+    const createdUuid = userConnectionMapper.addUserConnection(
+      user,
+      connection
+    );
+
+    const connectionUuid = userConnectionMapper.getConnectionUuid(connection);
+
+    expect(connectionUuid).toBe(createdUuid);
+  });
+
+  it("Метод getConnectionUuid возвращает null, если переданного соединения нет в системе", () => {
+    const connection = new Connection(new Socket());
+    const userConnectionMapper = new UserConnectionMapper();
+
+    const connectionUuid = userConnectionMapper.getConnectionUuid(connection);
+
+    expect(connectionUuid).toBe(null);
+  });
+
+  it("Метод deleteUserConnectionByUuid удаляет из хранилища uuidUserMap пользователя и соединение из uuidConnectionMap", () => {
+    const user: User = { login: "John", password: "123" };
+    const connection = new Connection(new Socket());
+    const userConnectionMapper = new UserConnectionMapper();
+
+    const createdUuid = userConnectionMapper.addUserConnection(
+      user,
+      connection
+    );
+
+    userConnectionMapper.deleteUserConnectionByUuid(createdUuid);
+
+    // @ts-ignore
+    const uuidUserMap = userConnectionMapper.uuidUserMap;
+    // @ts-ignore
+    const uuidConnectionMap = userConnectionMapper.uuidConnectionMap;
+
+    expect(uuidConnectionMap.has(createdUuid)).toBeFalsy();
+    expect(uuidUserMap.has(createdUuid)).toBeFalsy();
+  });
 });
