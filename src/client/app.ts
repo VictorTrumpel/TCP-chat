@@ -1,26 +1,23 @@
-import { Socket } from "net";
-import { Request } from "@shared";
+import { clientSocket } from "./Socket";
+import { Input } from "./ui/Input";
+import { passRegistration } from "./passRegistration";
 
-const socket = new Socket();
+const connection = async () => {
+  const userUuid = await passRegistration(clientSocket);
 
-const connection = () => {
-  const request: Request = {
-    url: "/auth",
-    method: "POST",
-    headers: {},
-    body: {
-      password: "123",
-      login: "John",
-    },
-  };
+  console.log("userUuid :>> ", userUuid);
 
-  const buffer = Buffer.from(JSON.stringify(request), "utf8");
+  const responses: Buffer[] = [];
 
-  socket.write(buffer);
+  clientSocket.on("data", (buffer) => {
+    responses.push(buffer);
+  });
+
+  while (true) {
+    const message = await Input();
+    clientSocket.write(message);
+    console.log("responses.length :>> ", responses.length);
+  }
 };
 
-socket.connect({ port: 8000 }, connection);
-
-socket.on("data", (data) => {
-  console.log("Сервер ответил :>> ", data.toString());
-});
+clientSocket.connect({ port: 8000 }, connection);

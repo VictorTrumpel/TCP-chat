@@ -1,0 +1,1 @@
+export { passRegistration } from "./passRegistration";

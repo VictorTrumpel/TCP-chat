@@ -2,7 +2,7 @@ import { Request, Response } from "@shared";
 import { userConnectionMapper } from "@server/UserConnectionMapper";
 import { Connection } from "@server/Connection";
 
-export const authRequest = (request: Request, connection: Connection) => {
+export const registerRequest = (request: Request, connection: Connection) => {
   const password = request.body.password;
   const login = request.body.login;
 

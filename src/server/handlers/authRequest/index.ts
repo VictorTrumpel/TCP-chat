@@ -1,1 +1,0 @@
-export { authRequest } from "./authRequest";

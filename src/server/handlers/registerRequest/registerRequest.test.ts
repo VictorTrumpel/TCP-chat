@@ -2,7 +2,7 @@ import { describe, it, vi, beforeEach, expect } from "vitest";
 import { userConnectionMapper } from "@server/UserConnectionMapper";
 import { Connection } from "@server/Connection";
 import { Request } from "@shared";
-import { authRequest } from "./authRequest";
+import { registerRequest } from "./registerRequest";
 
 vi.mock("@server/UserConnectionMapper", () => {
   return {
@@ -12,7 +12,7 @@ vi.mock("@server/UserConnectionMapper", () => {
   };
 });
 
-describe("Спецификация на функцию authRequest", () => {
+describe("Спецификация на функцию registerRequest", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -28,7 +28,7 @@ describe("Спецификация на функцию authRequest", () => {
 
     const connection = { send: vi.fn() } as unknown as Connection;
 
-    authRequest(request, connection);
+    registerRequest(request, connection);
 
     expect(userConnectionMapper.addUserConnection).toBeCalledTimes(1);
     expect(userConnectionMapper.addUserConnection).toBeCalledWith(
@@ -49,7 +49,7 @@ describe("Спецификация на функцию authRequest", () => {
 
     const connection = { send: vi.fn() } as unknown as Connection;
 
-    authRequest(request, connection);
+    registerRequest(request, connection);
 
     expect(connection.send).toBeCalledTimes(1);
 
