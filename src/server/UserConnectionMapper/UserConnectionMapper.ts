@@ -8,6 +8,10 @@ export class UserConnectionMapper {
   private uuidUserMap = new Map<UserUuid, User>();
   private uuidConnectionMap = new Map<UserUuid, Connection>();
 
+  getAllConnections() {
+    return [...this.uuidConnectionMap.values()];
+  }
+
   addUserConnection(user: User, connection: Connection) {
     const uuid = uuidv4();
 

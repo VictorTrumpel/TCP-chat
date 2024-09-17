@@ -1,23 +1,19 @@
 import { clientSocket } from "./Socket";
-import { Input } from "./ui/Input";
+import { PORT } from "@shared";
 import { passRegistration } from "./passRegistration";
+import { printUserMessage } from "./printUserMessage";
+import { startChat } from "./startChat";
 
 const connection = async () => {
   const userUuid = await passRegistration(clientSocket);
 
-  console.log("userUuid :>> ", userUuid);
+  clientSocket.uuid = userUuid;
 
-  const responses: Buffer[] = [];
+  console.log("Happy chat!");
 
-  clientSocket.on("data", (buffer) => {
-    responses.push(buffer);
-  });
-
-  while (true) {
-    const message = await Input();
-    clientSocket.write(message);
-    console.log("responses.length :>> ", responses.length);
-  }
+  await startChat();
 };
 
-clientSocket.connect({ port: 8000 }, connection);
+clientSocket.on("data", printUserMessage);
+
+clientSocket.connect({ port: PORT }, connection);

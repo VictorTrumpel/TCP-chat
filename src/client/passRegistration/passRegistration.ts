@@ -9,8 +9,8 @@ const baseRegisterRequest = {
 };
 
 export const passRegistration = async (socket: Socket) => {
-  const login = await Input();
-  const password = await Password();
+  const login = await Input("Enter your login:");
+  const password = await Password("Enter your password:");
 
   const body = { login, password };
   const request = { ...baseRegisterRequest, body };
@@ -22,7 +22,7 @@ export const passRegistration = async (socket: Socket) => {
   return waitUserUuidFromServer(socket);
 };
 
-export const waitUserUuidFromServer = (socket: Socket) => {
+export const waitUserUuidFromServer = (socket: Socket): Promise<string> => {
   return new Promise((resolve) => {
     const handleData = (buffer: Buffer) => {
       const data = JSON.parse(buffer.toString());

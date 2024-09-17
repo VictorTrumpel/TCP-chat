@@ -1,8 +1,8 @@
 import { input } from "@inquirer/prompts";
 
-export const Input = () =>
+export const Input = (placeholder: string) =>
   input({
-    message: "Enter your Login",
+    message: placeholder,
     required: true,
     theme: { prefix: "" },
   });

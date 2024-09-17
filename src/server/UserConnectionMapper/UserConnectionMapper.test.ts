@@ -123,4 +123,33 @@ describe("Спецификация класса UserConnectionMapper", () => {
     expect(uuidConnectionMap.has(createdUuid)).toBeFalsy();
     expect(uuidUserMap.has(createdUuid)).toBeFalsy();
   });
+
+  it("Метод getAllConnections возвращает все текущие соединения в виде массива", () => {
+    const user1: User = { login: "John", password: "123" };
+    const connection1 = new Connection(new Socket());
+
+    const user2: User = { login: "Petr", password: "456" };
+    const connection2 = new Connection(new Socket());
+
+    const userConnectionMapper = new UserConnectionMapper();
+
+    userConnectionMapper.addUserConnection(user1, connection1);
+    userConnectionMapper.addUserConnection(user2, connection2);
+
+    const allConnections = userConnectionMapper.getAllConnections();
+
+    const expectedConnections = [
+      // @ts-ignore
+      ...userConnectionMapper.uuidConnectionMap.values(),
+    ];
+
+    for (let i = 0; i < expectedConnections.length; i++) {
+      const expectedConnection = expectedConnections[i];
+      const connection = allConnections[i];
+
+      const isTheSame = expectedConnection === connection;
+
+      expect(isTheSame).toBeTruthy();
+    }
+  });
 });
