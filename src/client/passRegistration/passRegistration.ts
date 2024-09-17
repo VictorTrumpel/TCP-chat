@@ -1,6 +1,5 @@
 import { Socket } from "net";
-import { Input } from "../ui/Input";
-import { Password } from "../ui/Password";
+import { Input, Password } from "@client/ui";
 
 const baseRegisterRequest = {
   url: "/register",

@@ -23,7 +23,8 @@
     "paths": {
       "@shared": ["./src/shared/"],
       "@server/Connection": ["./src/server/Connection"],
-      "@server/UserConnectionMapper": ["./src/server/UserConnectionMapper"]
+      "@server/UserConnectionMapper": ["./src/server/UserConnectionMapper"],
+      "@client/ui": ["./src/client/ui"]
     }
   },
   "exclude": ["node_modules"]
